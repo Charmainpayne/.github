@@ -1,0 +1,21 @@
+name: Dotfiles CI            # Appears in the Actions tab
+
+# When the workflow should run
+on:
+  push:                       # any push to any branch
+  workflow_dispatch:          # adds a “Run workflow” button in the UI
+
+jobs:
+  configure:
+    runs-on: macos-latest     # your script sets up mac-specific files
+
+    steps:
+      # 1. Check out the repository code
+      - uses: actions/checkout@v4
+
+      # 2. Run your setup script with secrets injected as env vars
+      - name: Configure Git access
+        run: ./dotfiles-latest/setup.sh     # adjust path if needed
+        env:
+          GIT_USERNAME:  ${{ secrets.GIT_USERNAME }}
+          GIT_USEREMAIL: ${{ secrets.GIT_USEREMAIL }}
